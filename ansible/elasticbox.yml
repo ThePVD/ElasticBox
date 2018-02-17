@@ -1,0 +1,13 @@
+---
+
+- name: run the playbook tasks on the localhost
+  hosts: all
+  connection: local
+  become: yes
+  tasks:
+
+  - name: print out the hostname of target
+    command: hostname
+
+  - name: hello world
+    command: echo 'HELLO WORLD'
