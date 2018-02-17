@@ -11,3 +11,29 @@
 
   - name: hello world
     command: echo 'HELLO WORLD'
+
+  - name: install the latest version of docker
+    yum:
+      name: docker
+      state: latest
+
+  - easy_install:
+      name: pip
+      state: latest
+
+  - name: install certain python modules for docker
+    pip:
+      name: docker-py
+      state: present
+
+  - service:
+      name: docker
+      enabled: yes
+      state: started
+
+  - name: pull appropriate elasticsearch images
+    docker_container:
+      name: 
+        - docker.elastic.co/elasticsearch/elasticsearch-platinum
+
+
