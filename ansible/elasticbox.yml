@@ -2,15 +2,11 @@
 
 - name: run the playbook tasks on the localhost
   hosts: all
+  vars:
+    elastic_version: 6.2.1
   connection: local
   become: yes
   tasks:
-
-  - name: print out the hostname of target
-    command: hostname
-
-  - name: hello world
-    command: echo 'HELLO WORLD'
 
   - name: install the latest version of docker
     yum:
@@ -32,8 +28,13 @@
       state: started
 
   - name: pull appropriate elasticsearch images
-    docker_container:
-      name: 
-        - docker.elastic.co/elasticsearch/elasticsearch-platinum
+    shell: |
+      docker pull {{ item }}:{{ elastic_version }}
+    with_items:
+      - docker.elastic.co/elasticsearch/elasticsearch
+      - docker.elastic.co/kibana/kibana
+      - docker.elastic.co/beats/metricbeat
+
+
 
 
