@@ -1,7 +1,7 @@
-version: 'latest'
+version: '2'
 services:
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.2.1
     container_name: elasticsearch
     environment:
       - cluster.name=docker-cluster
@@ -18,7 +18,7 @@ services:
     networks:
       - esnet
   elasticsearch2:
-    image: docker.elastic.co/elasticsearch/elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.2.1
     container_name: elasticsearch2
     environment:
       - cluster.name=docker-cluster
@@ -33,11 +33,30 @@ services:
       - esdata2:/usr/share/elasticsearch/data
     networks:
       - esnet
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.2.1
+    container_name: kibana
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - kibanadata1:/usr/share/kibana/data
+    ports:
+      - 5601:5601
+    networks:
+      - esnet
 
 volumes:
   esdata1:
     driver: local
   esdata2:
+    driver: local
+  kibanadata1:
     driver: local
 
 networks:
