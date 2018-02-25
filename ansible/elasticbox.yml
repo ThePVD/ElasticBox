@@ -9,21 +9,22 @@
   tasks:
 
   - name: install the latest version of docker
-    yum:
-      name: docker
-      state: latest
+    yum: name={{ item }} state=installed
+    with_items:
+      - docker
+      - docker-compose
 
   - easy_install:
       name: pip
       state: latest
 
-  - name: install certain python modules for docker
-    pip:
-      name: {{ item }}
-      state: present
-      with_items:
-        - docker_py
-        - docker-compose
+      #  - name: install certain python modules for docker
+      #pip:
+      #name: {{ item }}
+      #state: present
+      #with_items:
+      #  - "docker_py"
+      #  - "docker-compose"
 
   - service:
       name: docker
