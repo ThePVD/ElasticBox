@@ -50,6 +50,21 @@ services:
       - 5601:5601
     networks:
       - esnet
+  metricbeat:
+    image: docker.elastic.co/beats/metricbeat:6.2.1
+    container_name: metricbeat
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - mbdata1:/usr/share/metricbeat/data
+    networks:
+      - esnet
 
 volumes:
   esdata1:
@@ -57,6 +72,8 @@ volumes:
   esdata2:
     driver: local
   kibanadata1:
+    driver: local
+  mbdata1:
     driver: local
 
 networks:
