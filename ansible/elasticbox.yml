@@ -39,7 +39,9 @@
       - docker.elastic.co/kibana/kibana
       - docker.elastic.co/beats/metricbeat
 
-
+  - name: pull appropriate elasticsearch images
+    shell: |
+      sysctl -w vm.max_map_count=262144
 
 
 
