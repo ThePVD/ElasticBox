@@ -19,8 +19,11 @@
 
   - name: install certain python modules for docker
     pip:
-      name: docker-py
+      name: {{ item }}
       state: present
+      with_items:
+        - docker_py
+        - docker-compose
 
   - service:
       name: docker
@@ -34,6 +37,8 @@
       - docker.elastic.co/elasticsearch/elasticsearch
       - docker.elastic.co/kibana/kibana
       - docker.elastic.co/beats/metricbeat
+
+
 
 
 
